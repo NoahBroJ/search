@@ -1,6 +1,7 @@
 <?php
     if (!empty($_GET["search"])) {
-        $tags = explode(",", $_GET["search"]);
+        echo trim($_GET["search"]);
+        $userTags = explode(" ", $_GET["search"]);
     }
 ?>
 

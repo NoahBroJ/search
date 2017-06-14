@@ -3,15 +3,15 @@
 require "connect.php";
 
 /*Select everything from the products table*/
-if (!empty($tags)) {
+if (!empty($userTags)) {
     
     $sql = "SELECT * FROM products WHERE";
     
-    for ($i = 0; $i < sizeof($tags); $i++) {
+    for ($i = 0; $i < sizeof($userTags); $i++) {
         if ($i == 0) {
-            $sql = $sql." tags LIKE '%".$tags[$i]."%'";
+            $sql = $sql." tags LIKE '%".$userTags[$i]."%'";
         } else {
-            $sql = $sql." OR tags LIKE '%".$tags[$i]."%'";
+            $sql = $sql." OR tags LIKE '%".$userTags[$i]."%'";
         }
     }
     
@@ -28,13 +28,31 @@ if (!empty($tags)) {
 
 /*Go through all products*/
 while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
-?>
-    <div class="product">
-        <h3><?php echo $row["name"] ?></h3>
-        <p class="price"><?php echo $row["price"] ?> kr.</p>
-        <p class="description"><?php echo $row["description"] ?></p>
-    </div>
-<?php
+    $dbTags = explode(",", $row["tags"]);
+    if (!empty($userTags)) {
+        foreach ($userTags as $userTag) {
+            foreach ($dbTags as $dbTag) {
+                if ($userTag == $dbTag) {
+                    ?>
+                        <div class="product">
+                            <h3><?php echo $row["name"] ?></h3>
+                            <p class="price"><?php echo $row["price"] ?> kr.</p>
+                            <p class="description"><?php echo $row["description"] ?></p>
+                        </div>
+                    <?php
+                }
+            }
+        }
+    } else {
+        ?>
+            <div class="product">
+                <h3><?php echo $row["name"] ?></h3>
+                <p class="price"><?php echo $row["price"] ?> kr.</p>
+                <p class="description"><?php echo $row["description"] ?></p>
+            </div>
+        <?php
+    }
+
 }
 
 /*Close connection*/
