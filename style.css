@@ -1,0 +1,18 @@
+#container {
+    margin: 10px auto;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product {
+    flex-basis: 18%;
+    background: #eee;
+    text-align: center;
+    margin: 0 0 10px;
+}
+
+.price {
+    font-weight: bold;
+}
